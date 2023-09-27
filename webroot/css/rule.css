@@ -1,0 +1,66 @@
+#tblRule thead th {
+  text-align: center;
+}
+
+#clientBtu{
+  position: relative;
+  border-radius: 4px;
+  width: 14px;
+  height: 16px;
+  padding: 0px;
+}
+
+#clientBtu .caret{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#clientMenu{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+/* 추가 검사 토글 스위치 */
+.toggleSwitch {
+  width: 25px;
+  height: 15px;
+  display: block;
+  position: relative;
+  border-radius: 30px;
+  background-color: #ccc;
+  cursor: pointer;
+  
+}
+
+.toggleSwitch .toggleButton {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: white;
+}
+
+#toggle:checked ~ .toggleSwitch {
+  background: #2196F3;
+}
+
+#toggle:checked ~ .toggleSwitch .toggleButton {
+  left: calc(100% - 15px);
+  background: white;
+}
+
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
+}
+#rule_md_select_model_area{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}

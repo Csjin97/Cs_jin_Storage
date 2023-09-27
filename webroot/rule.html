@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<body>
+<table class="border-none" style="height: 100%;">
+    <tr style="display:table; width:1420px; margin-bottom:9px">
+        <td>
+            <div class="btn-group" style="margin-right:5px;">
+                <button type="button" class="btn btn-default" onclick="RuleView('');">
+                    <span id="addRuleicon" class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr class="data-body">
+        <td style="border-collapse: collapse;">            
+            <div>
+                <table id="tblRule" class="table table-striped table-bordered table-condensed table-hover">
+                    <colgroup>
+                        <col style="width: 237px;">
+                        <col style="width: 237px;">
+                        <col style="width: 118px;">
+                        <col style="width: 444px;">
+                        <col style="width: 444px;">
+                    </colgroup>
+                    <thead>
+                        <tr style="background-color: aliceblue; position: sticky; top: 0; outline:1px solid #ddd">
+                            <th>
+                                Client
+                                <!-- Client Filtering-->
+                                <div class="btn-group">
+                                    <button id="clientBtu" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul id="clientMenu" class="dropdown-menu">
+                                        <li>
+                                            &nbsp;Menu&nbsp;
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th>Model</th>
+                            <th>Threshold</th>
+                            <th>Recipe</th>
+                            <th>FileName</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="RuleView(this);">
+                            <td>IR PC 1</td>
+                            <td>ASE_CHD_210</td>
+                            <td>5</td>
+                            <td>-</td>
+                            <td>Contain, '-U4.', 0</td>
+                        </tr>
+                        <tr onclick="RuleView(this);">
+                            <td>IR PC 1</td>
+                            <td>ASE_CHD_210</td>
+                            <td>8</td>
+                            <td>Contain, '-U4.', 0</td>
+                            <td>Part, '-U4.', 8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<!-- Modal Add or Edit Server -->
+<div class="modal fade" id="mdRule" tabindex="-1" role="dialog">
+    <div class="modal-dialog" id="rulemodal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Setup Rule</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px;">
+                        <label class="col-sm-3 control-label" style="margin-left:7px">Client <label style="color:red"> *</label></label>
+                        <div class="col-sm-8" style="margin-bottom: 18px; margin-left:-7px">
+                            <select id="cboRuleClient" class="form-control">
+                                <option value="ASE 1">Client 1</option>
+                                <option value="ASE 2">Client 2</option>
+                                <option value="IR">Client 3</option>
+                                <option value="IR 2">Client 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Model</label>
+                        <div class="col-sm-8">
+                            <select id="cboRuleModel" class="form-control"
+                                onchange="RuleShowModelDesc(this)" style="margin-bottom:-5px">
+                                <option value="ASE 1">ASE 1</option>
+                                <option value="ASE 2">ASE 2</option>
+                                <option value="IR">IR</option>
+                                <option value="IR 2">IR 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-8" style="margin-bottom: 18px;">
+                            <textarea id="rulModelDesc" class="form-control" readonly>
+                            </textarea>
+                        </div>
+                    </div>
+                    <div id="rule_md_select_model_area">
+                        <label>추가 검사</label>
+                        <div>
+                            <input type="checkbox" id="toggle" hidden> 
+                            <label for="toggle" class="toggleSwitch">
+                                <span class="toggleButton"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Option</label>
+                        <div class="checkbox col-sm-2">
+                            <label><input type="checkbox" id="chkThreshold" onchange="RuleFilterChecked('Threshold');"> Threshold</label>
+                        </div>
+                        <div class="col-sm-6" style="margin-bottom: 18px;">
+                            <input id="rulThreshold" autocomplete="off" class="form-control" type="text" placeholder="0~10까지 입력하세요"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Filter</label>
+                        <div class="checkbox col-sm-2">
+                            <label><input type="checkbox" id="chkRecipe" onchange="RuleFilterChecked('Recipe');" checked> Recipe</label>
+                        </div>
+                        <div class="col-sm-6 input-group" style="padding-left: 15px !important; padding-right: 15px !important; margin-bottom: 10px;">
+                            <span class="input-group-addon">키워드</span>
+                            <input id="rulRecipeKeyword" type="text" autocomplete="off" class="form-control"  placeholder=".U9-" oninput="inputexample('Recipe');">
+                            <span class="input-group-addon">위치</span>
+                            <input id="rulRecipeLocation" type="text" autocomplete="off" title="-9 ~ 9까지 입력이 가능합니다." class="form-control"  oninput="inputexample('Recipe');">
+                        </div>
+                            <label class="col-sm-5 control-label"></label>
+                        <div class="col-sm-6">
+                            <input id="exRecipe"  class="form-control" type="text" style="margin-bottom:18px"  readonly>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="checkbox col-sm-2">
+                            <label><input type="checkbox" id="chkFileName" onchange="RuleFilterChecked('FileName');" checked> FileName</label>
+                        </div>
+                        <div class="col-sm-6 input-group" style="padding-left: 15px !important; padding-right: 15px !important; margin-bottom: 10px; z-index:1;">
+                            <span class="input-group-addon">키워드</span>
+                            <input id="rulFileNameKeyword" type="text" autocomplete="off" class="form-control" placeholder=".U9-" oninput="inputexample('FileName');">
+                            <span class="input-group-addon" >위치</span>
+                            <input id="rulFileNameLocation" type="text" autocomplete="off" title="-9 ~ 9까지 입력이 가능합니다."class="form-control" oninput="inputexample('FileName');">
+                        </div>
+                            <!-- <p class="arrow_box" style="z-index:2">ex) 키워드 : U9 위치 : 3 ==> ***U9*...* &emsp;&emsp;&emsp;&emsp;&emsp; 키워드 : U9 위치 : - 3 &emsp;==> *...*U9*** &emsp;&emsp;&emsp;&emsp;&emsp;키워드 : U9 &emsp;&emsp;&emsp;&emsp;&emsp;==> U9 contain</p> -->
+                            <label class="col-sm-5 control-label"></label>
+                        <div class="col-sm-6">
+                            <input id="exFileName"  class="form-control" type="text" style="z-index:1"  readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div id="rulDelete" class="pull-left">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="RuleDelete();">Delete</button>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="rulAdd" type="button" class="btn btn-primary" data-dismiss="modal" onclick="RuleAdd();">Apply</button>
+                <button id="rulUpdate" type="button" class="btn btn-primary" data-dismiss="modal" onclick="RuleUpdate();">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<body>
+<table class="border-none">
+    <tr class="data-menu" style="width:1420px;">
+        <td>
+            <div class="btn-group" style="margin-right:5px;">
+                <button id="logReset" class="btn btn-default" onclick="LogReset();">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+            </div>
+            <div class="btn-group" style="margin-right:1px;">
+                <button id="logBtu" type="button" class="btn btn-default dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-filter"></span>
+                    &nbsp;로그종류&nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul id=logMenu class="dropdown-menu">
+                    <li><a>
+                        <input id="chkInfo" type="checkbox" checked>
+                        <span class="icon bi log_info"></span>
+                        Info
+                    </a></li>
+                    <li><a>
+                        <input id="chkDebug" type="checkbox" checked>
+                        <span class="icon bi log_debug"></span>
+                        Debug
+                    </a></li>
+                    <li><a>
+                        <input id="chkWarning" type="checkbox" checked>
+                        <span class="icon bi log_warning"></span>
+                        Warning
+                    </a></li>
+                    <li><a>
+                        <input id="chkError" type="checkbox" checked>
+                        <span class="icon bi log_error"></span>
+                        Error
+                    </a></li>
+                </ul>
+            </div>
+            <div class="btn-group" style="margin-right:1px;">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-title">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            기간
+                        </button>
+                    </span>
+                    <input id="logStart" type="text" class="form-control"
+                        style="width: 150px; text-align:center;" >
+                    <span class="input-group-addon" id="sizing-addon2"
+                        style="border-left: none; border-right:none;">
+                        ~
+                    </span>
+                    <input id="logEnd" type="text" class="form-control"
+                        style="width: 150px; text-align:center;" >
+                </div>
+             </div>
+            <div class="btn-group" style="margin-right:5px;">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default btn-title">
+                            <span class="glyphicon glyphicon-tag"></span>
+                            키워드
+                        </button>
+                    </div>
+                    <input id="tbxLogKeyword" type="text" class="form-control" title="특수문자 [ ] ~ ! @ # $ % ^ & * | \ ' '  &quot; &quot; ; : / ? 제외" placeholder="검색어" style="width: 150px;text-align:center;">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button id="searchLog" class="btn btn-default" onclick="SearchLog();">
+                    <span class="glyphicon glyphicon-search"></span>
+                    &nbsp;찾기
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr class="data-header">
+        <td>
+            <table id="tblheadLog" class="table table-condensed">
+                <colgroup>
+                    <col style="width: 102px;">
+                    <col style="width: 50px;">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr style="border: none;">
+                        <th>날짜/시간</th>
+                        <th>상태</th>
+                        <th>내역</th>
+                    </tr>
+                </thead>
+            </table>
+        </td>
+    </tr>
+    <tr class="data-body">
+        <td style="border-collapse:collapse">
+            <div style="border:none;">
+                <table id="tblLog" class="table table-striped table-hover table-condensed">
+                    <colgroup>
+                        <col style="width: 102px;">
+                        <col style="width: 50px;">
+                        <col>
+                    </colgroup>
+                    <!-- Table-layout fixed require -->
+                    <!-------------------------------->
+                    <tbody class="logdata">
+                        <tr>
+                            <td class="list_date" colspan="3">&nbsp;2022.03.04</td>
+                        </tr>
+                        <tr>
+                            <td class="list_time">17:32:17</td>
+                            <td class="log_info"></td> <!-- info / warning / error -->
+                            <td title="아주 기다란 로그 내역">아주 기다란 로그 내역</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="HIMS">
+        <title>HIMS ML Manager</title>
+
+
+        <!-- Bootstrap -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="bootstrap/3.4.1/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <!--link rel="stylesheet" href="bootstrap/3.4.1/css/bootstrap-theme.min.css"-->
+        <!-- Latest compiled and minified JavaScript -->
+        <!--script src="bootstrap/3.4.1/js/bootstrap.min.js"></script-->
+
+        <!-- Login -->
+        <link rel="stylesheet" type="text/css" href="css/login.css" >
+        <script src="js/common.js"></script>
+        <script src="js/serverif.js"></script>
+        <script src="js/login.js"></script>
+        <script>
+            var hLogin = new CLogin();
+
+            function Login() {
+                var id = document.getElementById('login').value;
+                var pw = document.getElementById('password').value;
+                hLogin.LogIn(id, pw).catch( () => {
+                    document.getElementById('login').focus();
+                });
+            }
+
+            function IsLogin() {
+                console.log('Call IsLogin')
+                var xhr = new XMLHttpRequest();
+                hLogin.IsLogin().then( (result) => {
+                    if (result['success']) {
+                        if (result['msg'] != '')
+                            window.location.href = result['msg'];
+                    }
+                });
+            }
+
+            function CheckEnterKey(e) {
+                if (e.keyCode == 13)
+                    Login();
+            }
+        </script>
+    </head>
+
+    <body onload="IsLogin();">
+        <div id="loginMode"></div>
+        <div id="" class="wrapper fadeInDown">
+            <div id="formContent">
+                <!-- Tabs Titles -->
+            
+                <!-- Icon -->
+                <div class="fadeIn first" style="height: 54px; padding-top: 10px;padding-bottom: 10px;">
+                    <img src="images/logo-hims.png" alt="HIMS">
+                </div>
+            
+                <!-- Login Form -->
+                <div>
+                    <input type="text" id="login" class="txtBox fadeIn second" name="login" placeholder="login">
+                    <input type="password" id="password" class="txtBox fadeIn third" name="password" placeholder="password" onkeypress="CheckEnterKey(event)">
+                    <button class="btn" class="fadeIn fourth" onclick="Login()">Log In</button>
+                </div>
+            
+                <!-- Remind Passowrd -->
+                <div id="formFooter" style="padding-top:25px;">
+                    <p>
+                        <small>
+                            COPYRIGHT &COPY; 2023 HIMS. ALL RIGHT RESERVED.
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

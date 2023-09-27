@@ -1,0 +1,669 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<body>
+<table class="border-none" style="height: 100%;">
+    <tr style="display:table; width:1420px; margin-bottom:9px;">
+        <td>
+            <div class="btn-group" style="margin-right:5px;">
+                <button type="button" class="btn btn-default" onclick="ModelView('add');">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+            <div class="btn-group" style="margin-right:1px;">
+                <button id="baseModelBut" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-hdd"></span>
+                    &nbsp;BaseModel&nbsp;
+                    <span class="caret"></span>
+                </button>
+                <ul id= "baseModelMenu" class="dropdown-menu">
+                    <li onclick="ModelView('baseAdd');">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        Add
+                    </li>
+                    <li onclick="ModelView('baseDelete');">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        Delete
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr class="data-body">
+        <td style="border-collapse:collapse;">
+            <div>
+                <table id="tblModel" class="table table-striped table-bordered table-condensed table-hover">
+                    <colgroup>
+                        <col style="width: 130px;">
+                        <col style="width: 300px;">
+                        <col style="width: 150px;">
+                        <col style="width: 410px;">
+                        <col style="width: 310px;">
+                        <col style="width: 300px;">
+                    </colgroup>
+                    <thead>
+                        <tr style="background-color: aliceblue; position: sticky; top: 0; outline:1px solid #ddd">
+                            <th>Name</th>
+                            <th>Base Model</th>
+                            <th>Options</th>
+                            <th>Pre-Processing</th>
+                            <th>Post-Processing</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="ModelView(this);">
+                            <td>CHDBOT_221005_test.vrws</td>
+                            <td>6FD4B1FC4F7B11ED81BB04D9F581C73B</td>
+                            <td style="text-align:left;">"threshold": {...}</td>
+                            <td style="text-align:left;">"crop_and_resize": {...}</td>
+                            <td style="text-align:left;">"is_dark","min_area_size","reconstruct_crop_and_resize"</td>
+                            <td style="text-align:left;"></td>
+                        </tr>
+                        <tr onclick="ModelView(this);">
+                            <td>IR_ML2</td>
+                            <td>IR</td>
+                            <td style="text-align:left;">Wheel / Border</td>
+                            <td style="text-align:left;">TH:3 / Size: 10</td>
+                            <td style="text-align:left;">TH:50,MAR:10,MIN:100</td>
+                            <td style="text-align:left;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+        </td>
+    </tr>
+</table>
+
+<!-- Modal Add or Edit Server -->
+<div class="modal fade" id="mdModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Setup Model</h4>
+            </div>
+            <div class="modal-body" id="model_modal_body">
+                <div id="model_md_left">
+                    <div id="model_md_name_area" name="group">
+                        <div class="area_name">
+                            <label class="control-label">Name</label>
+                        </div>
+                        <div id="model_md_name_area_input">
+                            <input id="mdlName" type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div id="model_md_upload_area" name="group">
+                        <div class="area_name">
+                            <label class="control-label" >Upload</label>
+                        </div>
+                        <div>
+                            <input type="file" name="select upload file" accept=".vrws, .vwsa" id="uploadfile" title="업로드 파일의  최대 용량은 50M 입니다." onchange ="checkFile(this);">
+                        </div>
+                    </div>  
+                    <div id="model_md_basemodel_area" name="group">
+                        <div class="area_name">
+                            <label class="control-label">Base Model</label>
+                        </div>
+                        <div id="model_md_basemodel_select">
+                            <div>
+                                <select id="cboBaseModel" class="form-control" onchange="baseModelSelect(this.value);">
+                                    <option value="0">Upload</option>
+                                    <option value="ASE 1">ASE 1</option>
+                                    <option value="ASE 2">ASE 2</option>
+                                    <option value="IR">IR</option>
+                                    <option value="IR 2">IR 2</option>
+                                </select>
+                            </div>
+                            <div>
+                                <textarea  id="model_md_basemodel_description" class="form-control" readonly>
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="model_md_pp_select_area" class="dual-listbox-container">
+                        <div class="area_name">
+                            <label class="control-label">Select</label>
+                        </div>
+                        <div id="model_md_pp_select_area_input">
+                            <select id="availableItems" value="" multiple onchange="model_opt_click(this);">
+                                <optgroup label="Option">
+                                    <option>Common</option>
+                                    <option>Crop And Resize</option>
+                                </optgroup>
+                                <optgroup label="Pre Processing">
+                                    <option>Noise Remove</option>
+                                    <option>Mask Dot Splitter</option>
+                                    <option>Mask Dot Splitter2 Rotated Dot</option>
+                                </optgroup>
+                                <optgroup label="Post Processing">
+                                    <option>Find Black Dot</option>
+                                    <option>Is Dark</option>
+                                    <option>Vertex Crack</option>
+                                    <option>Pass Dot</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="model_md_description_area"class="form-group" name="group">
+                        <div class="area_name">
+                            <label class="control-label">Description</label>
+                        </div>
+                        <div id="model_md_description_area_input">
+                            <input id="modeldesc" class="form-control" type="text" placeholder="desc"/>
+                        </div>
+                    </div>
+                </div>
+                    <!-- 옵션 값 입력 영역 -->
+                <div id="model_md_right">
+                    <div id="Common_area" class="tab-content">
+                        <h5>Common</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">threshold</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Crop_And_Resize_area" class="tab-content">
+                        <h5>Crop And Resize</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">threshold</label>
+                            </div>
+                            <div class="tab_pp_input"> 
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">margin</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_crop_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_crop_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">resize_width</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">resize_height</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">resize_ratio</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Noise_Remove_area" class="tab-content">
+                        <h5>Noise Remove</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">length</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>                        
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">width</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">lowerLimit</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">limitedAngle</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">alpha</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">beta</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Mask_Dot_Splitter_area" class="tab-content">
+                        <h5>Mask Dot Splitter</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">clip_space</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">center_margin</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">canny_min_thr</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">canny_max_thr</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dilate_kernal_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dilate_iter</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">split_mode</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">masking_stick</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">masking_space</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Mask_Dot_Splitter2_Rotated_Dot_area" class="tab-content">
+                        <h5>Mask Dot Splitter2 Rotated Dot</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">clip_space</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">center_margin</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">find_dot_mode</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">canny_min_thr</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">canny_max_thr</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dilate_kernal_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dilate_iter</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">connectivity</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">compare_threshold</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_area_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_area_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">resize</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dot_size</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">dark_threshold</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">split_mode</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">masking_stick</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">masking_space</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Find_Black_Dot_area" class="tab-content">
+                        <h5>Find Black Dot</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">threshold</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Is_Dark_area" class="tab-content">
+                        <h5>Is Dark</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">threshold</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Vertex_Crack_area" class="tab-content">
+                        <h5>Vertex Crack</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">space_length</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_defect_area</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">min_defect_length</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Pass_Dot_area" class="tab-content">
+                        <h5>Pass Dot</h5>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">threshold</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">    
+                                <label class="control-label">margin</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_width</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">max_height</label>
+                            </div>
+                            <div class="tab_pp_input">    
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">wh_ratio</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="tab_pp_name">
+                                <label class="control-label">circularity</label>
+                            </div>
+                            <div class="tab_pp_input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div name="butShowHide" id="mdlDelete" class="pull-left">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ModelDelete();">Delete</button>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button name="butShowHide" id="BasemdlAdd" class="btn btn-primary" type="button" onclick="BaseModelAdd(); ModelUpload();">Apply</button>
+                <button name="butShowHide" id="BasemdlDelete" type="button" class="btn btn-danger" data-dismiss="modal"  onclick="BaseModelDelete();">Delete</button>
+                <button name="butShowHide" id="mdlAdd" type="button" class="btn btn-primary" onclick="ModelAdd();">Apply</button>
+                <button name="butShowHide" id="mdlUpdate" type="button" class="btn btn-primary" data-dismiss="modal" onclick="ModelUpdate();">Update</button>
+                <button id="mdljson_edit" class="btn btn-default" onclick="modalView('model_json_modal');"><span>json edit</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="model_json_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">json editor</h5>
+            </div>
+            <div class="modal-body">
+                <div id="editor" contenteditable="true"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="json_save();">Json Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

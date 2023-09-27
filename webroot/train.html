@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <body>
+        <div>
+            <div class="btn-group">
+                <div>
+                    <button type="button" class="btn btn-default" onclick="trainView('add', this);">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-refresh" onclick="train_Update();"></span>
+                    </button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-default" onclick="ImgsetView();">
+                        <span>데이터 셋</span>
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="Train_ruleView();">
+                        <span>학습 옵션</span>
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="Train_orderView();">
+                        <span>학습 조건</span>
+                    </button>
+                </div>
+            </div>
+            <div class="train-container">
+                <div class="train_th">
+                    <div class="train-cell">생성 날짜</div>
+                    <div class="train-cell">Name</div>
+                    <div class="train-cell">데이터 셋</div>
+                    <div class="train-cell">학습 옵션</div>
+                    <div class="train-cell">학습 조건</div>
+                    <div class="train-cell">Description</div>
+                    <div class="train-cell"></div>
+                </div>
+                <div class="train_td">
+                    <div class="train-cell">2023/09/01 14:46</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">대기, 학습, 완료</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">
+                        <button type="button" class="btn btn-default" onclick="Train_start();">
+                            <span class="glyphicon glyphicon-triangle-right"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="train_td">
+                    <div class="train-cell">2023/09/25</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">대기, 학습, 완료</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">...</div>
+                    <div class="train-cell">
+                        <button type="button" class="btn btn-default" onclick="Train_start();">
+                            <span class="glyphicon glyphicon-triangle-right"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모달창 통합 예정 -->
+        <!-- train 모달 창 -->
+        <div class="modal fade" id="mdTrain" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">학습</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="md_line">
+                            <div class="area_name">
+                                <label class="control-label">Name</label>
+                            </div>
+                            <div class="area_input">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="md_line">
+                            <div class="area_name">
+                                <label class="control-label">Data Set</label>
+                            </div>
+                            <div class="area_input">
+                                <select class="form-control">
+                                    <option value="0">Upload</option>
+                                    <option value="ASE 1">ASE 1</option>
+                                    <option value="ASE 2">ASE 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="md_line">
+                            <div class="area_name">
+                                <label class="control-label">학습 옵션</label>
+                            </div>
+                            <div class="area_input">
+                                <select class="form-control">
+                                    <option value="0">Upload</option>
+                                    <option value="ASE 1">ASE 1</option>
+                                    <option value="ASE 2">ASE 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="md_line">
+                            <div class="area_name">
+                                <label class="control-label">학습 조건</label>
+                            </div>
+                            <div class="area_input">
+                                <select class="form-control">
+                                    <option value="0">Upload</option>
+                                    <option value="ASE 1">ASE 1</option>
+                                    <option value="ASE 2">ASE 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group md_line">
+                            <div class="area_name">
+                                <label class="control-label">Description</label>
+                            </div>
+                            <div class="area_input">
+                                <input id="modeldesc" class="form-control" type="text" placeholder="desc"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="train_Modal_Open_Table_Append();">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- data set 모달 창 -->
+        <div class="modal fade" id="mdDataset" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">데이터 셋</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <button type="button" class="btn btn-default" onclick="mdDataset_subView(this);">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <table class="table table-bordered table-condensed table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue; position: sticky; top: 0; outline:1px solid #ddd">
+                                        <th>조건</th>
+                                        <th>옵션</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="train_md_set_list">
+                                    <tr onclick="mdDataset_subView(this);">
+                                        <td>...</td>
+                                        <td>...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- data set 입력 모달 창 -->
+        <div class="modal fade" id="mdDataset_sub" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">데이터 셋 입력</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="train_md_main">
+                            <!-- 데이터 셋 검색 조건 선택-->
+                            <div id="train_md_main_select">
+                                <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_path');">Path</button>
+                                <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_date');">Date</button>
+                                <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_count');">Count</button>
+                            </div>
+                            <div class="md_data_input_area">
+                                <div id="train_md_path" class="form-group md_line">
+                                    <div class="area_name">
+                                        <label class="control-label">Path</label>
+                                    </div>
+                                    <div class="area_input">
+                                        <input class="form-control" type="text"  placeholder="이미지가 있는 폴더의 주소를 입력"/>
+                                    </div>
+                                </div>
+                                <div id="train_md_date" class="form-group md_line">
+                                    <div class="area_name">
+                                        <label class="control-label" >Date</label>
+                                    </div>
+                                    <div class="area_input">
+                                        <input class="form-control" type="text" placeholder="ex) 2020/08/18_2023/09/26"/>
+                                    </div>
+                                </div>
+                                <div id="train_md_count" class="form-group md_line">
+                                    <div class="area_name">
+                                        <label class="control-label">Count</label>
+                                    </div>
+                                    <div class="area_input">
+                                        <input class="form-control" type="text"  placeholder="ex) 10000"/>
+                                    </div>
+                                </div>   
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="tabel_List_Append('train_md_main_select','train_md_set_list', 'data_set');">Apply</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 학습 옵션 모달 창 -->
+        <div class="modal fade" id="mdTrainrule" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">학습 옵션</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <button type="button" class="btn btn-default" onclick="train_md_rule_json(this);">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <table class="table table-bordered table-condensed table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue; position: sticky; top: 0; outline: 1px solid #ddd;">
+                                        <th>생성 날짜</th>
+                                        <th>옵션</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="train_md_rule_list">
+                                    <tr onclick="train_md_rule_json(this);">
+                                        <td>...</td>
+                                        <td>...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 학습 조건 모달 창 -->
+        <div class="modal fade" id="mdTrain_order" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">학습 조건</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <button type="button" class="btn btn-default" onclick="Train_conditions_View(this)">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </div>
+                        <div>
+                            <table class="table table-bordered table-condensed table-hover">
+                                <thead>
+                                    <tr style="background-color: aliceblue; position: sticky; top: 0; outline:1px solid #ddd">
+                                        <th>Name</th>
+                                        <th>옵션</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="train_md_order_list">
+                                    <tr onclick="Train_conditions_View(this)">
+                                        <td>...</td>
+                                        <td>...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 학습 조건 입력 모달 창 -->
+        <div class="modal fade" id="mdTrainorder_sub" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">학습 조건 입력 창</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="train_order_select">
+                            <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_error_rate')">과검률</button>
+                            <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_order_md_div2')">Date</button>
+                        </div>
+                        <div class="md_data_input_area">
+                            <div class="form-group md_line" id="train_md_error_rate">
+                                <div class="area_name">
+                                    <label class="control-label">과검률</label>
+                                </div>
+                                <div class="area_input">
+                                    <input class="form-control" type="text"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group md_line" id="train_md_order_date">
+                                <div class="area_name">
+                                    <label class="control-label">Date</label>
+                                </div>
+                                <div class="area_input">
+                                    <input class="form-control" type="text"/>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="tabel_List_Append('train_order_select','train_md_order_list', 'train_conditions')">Apply</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- json edit 모달 창 -->
+        <div class="modal fade" id="train_json_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h5 class="modal-title">학습 옵션</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div id="train_editor" contenteditable="true"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="json_Edit_Tabel_Append();">Apply</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>

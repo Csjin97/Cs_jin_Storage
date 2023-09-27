@@ -1,0 +1,69 @@
+/*학습 페이지 테이블 */
+.train-container {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.train_th {
+    background-color: aliceblue;
+    text-align: center;
+    font-weight: bold;
+    white-space: nowrap;
+}
+.train_td{
+    display: flex;
+    text-align: center;
+    white-space: nowrap;
+    align-items: center;
+}
+.train_th,
+.train_td {
+    display: table-row;
+}
+
+.train-cell {
+    display: table-cell;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.train-content {
+    display: none;
+    border: 1px solid black;
+}
+
+/* 학습 모달 창 */
+#mdTrain > div > div{
+    /* modal-content */
+    width: 600px;
+}
+.area_input{
+    width: 300px;
+}
+.area_input > input{
+    width: 100%;
+}
+.area_input > select{
+    width: 100%;
+}
+
+.md_line{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    border: 1px solid red;
+}
+
+#mdTrain > div > div >.modal-body{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 15px;
+    border: 1px solid green;
+}

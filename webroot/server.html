@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<body>
+<table class="border-none" style="height: 100%;">
+    <tr style="display:table; width:1420px; margin-bottom:9px;">
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" style="border-radius: 4px;" onclick="ServerView('');">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <!-- <p class="monitoring" style="font-weight:bold; width:1410px; margin-left:50px; margin-top:7px; margin-bottom:-10px">
+                    모니터링 중
+                </p> -->
+            </div>
+        </td>
+    </tr>
+    <tr style="margin: 0;padding: 0;">
+        <td style="border: 0px solid #ddd;margin: 0;">
+            <table id="tblServer" class="table table-bordered table-condensed table-hover" style="margin-left:-1px;">
+                <colgroup>
+                    <col style="width: 30px;">
+                    <col style="width: 150px;">
+                    <col style="width: 150px;">
+                    <col style="width: 40px;">
+                    <col style="width: 40px;">
+                    <col style="width: 40px;">
+                    <col style="width: 40px;">
+                    <col style="width: 60px;">
+                    <col style="width: 60px;">
+                    <col style="width: 60px;">
+                    <col style="width: 60px;">
+                </colgroup>
+                <thead>
+                    <tr style="background-color: aliceblue;">
+                        <th><span class="icon bi bi-display" style="color:black;"></span></th>
+                        <th>Name</th>
+                        <th>IP address</th>
+                        <th><span class="icon bi bi-pc-display" style="color:black;" title="검사 PC"></span></th>
+                        <th><span class="icon bi bi-eye-fill" style="color:black;" title="ML Server"></th>
+                        <th><span class="icon bi bi-card-image" style="color:black;" title="ML Engine"></span></th>
+                        <th><span class="icon bi bi-hdd-network-fill" style="color:black;" title="스토리지"></span></th>
+                        <th><span class="icon bi bi-cpu" style="color:black;" title="CPU 사용량 [%]"></span></th>
+                        <th><span class="icon bi bi-memory" style="color:black;" title="Memory 사용량 [%]"></span></th>
+                        <th><span class="icon bi bi-hdd" style="color:black;" title="Disk 사용량 [%]" ></span></th>
+                        <th><span class="icon bi bi-ethernet" style="color:black;" title="Network 처리량 [Mbps]"></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="192_168_1_192" onclick="ServerView(this);">
+                        <td><input type="radio" name="serverip" value="192.168.1.192" onclick="ServerSelect();"></td>
+                        <td>Client 1</td>
+                        <td>192.168.1.192</td>
+                        <td class="process_notused"></td>
+                        <td class="process_run"></td>
+                        <td class="process_stop"></td>
+                        <td class="process_run"></td>
+                        <td>1%</td>
+                        <td>1%</td>
+                        <td>1%</td>
+                        <td>1%</td>
+                    </tr>
+                    <tr id="192_168_1_193" onclick="ServerView(this);">
+                        <td><input type="radio" name="serverip" value="192.168.1.193" onclick="ServerSelect();"></td>
+                        <td>ML Engine</td>
+                        <td>192.168.1.193</td>
+                        <td class="process_notused"></td>
+                        <td class="process_run"></td>
+                        <td class="process_stop"></td>
+                        <td class="process_run"></td>
+                        <td>1%</td>
+                        <td>1%</td>
+                        <td>1%</td>
+                        <td>1%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr style="margin: 0;padding: 0;">
+        <td style="border: 1px solid #ddd; margin: 0; padding: 10px; padding-right: 0; height: 100%;">
+            <div id="systemplot" style="height: 100%; margin: 0;">
+            </div>
+        </td>
+    </tr>
+</table>
+
+<!-- Modal Add or Edit Server -->
+<div class="modal fade" id="mdServer" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Setup Server</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px;">
+                        <label class="col-sm-3 control-label" style="margin-left:6px">IP <label style="color:red">*</label></label> 
+                        <div class="col-sm-8">
+                            <input id="svrIP" class="form-control" type="text" placeholder="xxx.xxx.xxx.xxx" style="margin-bottom:18px; margin-left:-6px"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-8">
+                            <input id="svrName" autocomplete="off" class="form-control" type="text" style="margin-bottom:18px"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Service</label>
+                        <div class="checkbox col-sm-8">
+                            <label><input type="checkbox" id="chkClient" checked>검사 PC</label>
+                            &nbsp;&nbsp;
+                            <label><input type="checkbox" id="chkmlSvc">ML Server</label>
+                            &nbsp;&nbsp;
+                            <label><input type="checkbox" id="chkmlEng">ML Engine</label>
+                            &nbsp;&nbsp;
+                            <label><input type="checkbox" id="chkStorage">스토리지</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div id="svrDelete" class="pull-left">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ServerDelete();">Delete</button>
+                </div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="svrAdd" type="button" class="btn btn-primary" onclick="ServerAdd();">Apply</button>
+                <button id="svrUpdate" type="button" class="btn btn-primary" data-dismiss="modal" onclick="ServerUpdate();">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

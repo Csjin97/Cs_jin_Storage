@@ -1,0 +1,661 @@
+@charset "utf-8";
+
+body {
+    /* font-family: "Poppins", sans-serif; */
+    height: 100vh;
+    background: #fff;
+}
+
+/* STRUCTURE */
+.border-none {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+.border-none tr {
+    margin: 0;
+    padding: 0;
+}
+/*
+#border-none td {
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+*/
+.border-none tr:first-child td {
+    border-top: none;
+}
+
+.border-none tr:last-child td {
+    border-bottom: none;
+}
+
+.border-none tr td:first-child {
+    border-left: none;
+}
+
+.border-none tr td:last-child {
+    border-right: none;
+}
+
+#titlebar {
+    height: 50px;
+    background-color: #e2e2e2;
+}
+
+/*--------------------------------*/
+/*  Request Form: Show File List  */
+#filelist {
+    padding: 0;
+    margin: 0;
+    table-layout: fixed;
+    /* border: none;
+    border-top: 1px solid #ddd; */
+}
+#filelist th {
+    text-align: center;
+    font-size: small;
+    height: 28px;
+    vertical-align: middle;
+    border-bottom: 0px solid #ddd;
+    padding: 4px 4px 2px;
+}
+#filelist th:first-child {
+    text-align: center;
+}
+#filelist th:nth-child(1) {
+    text-align: left;
+}
+#filelist tr {
+    padding: 0;
+    margin: 0;
+}
+#filelist tr td {
+    height: 28px;
+    font-size: small;
+    vertical-align: middle;
+    padding: 4px 4px 2px;
+}
+#filelist tr td:nth-child(1) {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#filelist tr td:nth-child(2) {
+    text-align: right;
+}
+#filelist tr td:nth-child(3) {
+    text-align: center;
+}
+#filelist tr td img {
+    /*height: 22px; */
+    max-width: 22px;
+    max-height: 22px;
+    vertical-align: middle;
+}
+
+/*
+#filelist tfoot tr, #filelist tfoot tr td {
+    margin: 0;
+    padding: 0;
+}
+#filelist tfoot tr td div {
+    margin: 0;
+    padding: 0;
+    width: 50%;
+    height: 100%;
+    text-align: center; 
+    vertical-align: middle;
+}
+#filelist tfoot tr td div div {
+    float:left;
+    width: 30px;
+    border-right: 1px solid #ddd;
+}
+#filelist tfoot tr td div div button {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+*/
+/*  Request Form: Show File List  */
+/*--------------------------------*/
+
+
+
+
+.workingarea {
+    /* background-color: beige; */
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 15px;
+}
+#workpanel {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0; 
+}
+/*
+#workpanel.scroll {
+    background-color: white;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+}
+*/
+
+#footerarea {
+    width:100%;
+    height: 40px;
+}
+
+
+.data-menu {
+    display:table;
+    width:1200px;
+}
+.data-menu td {
+    /* background-color: aquamarine; */
+    padding-bottom: 10px;
+}
+.data-header {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ddd;
+}
+.data-header table {
+    margin: 0;
+    padding: 0;
+}
+.data-header table thead {
+    border: none;
+}
+.data-header table thead th {
+    text-align: center;
+    border: none;
+    border-left: 1px solid #ddd;
+    /*
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    */
+    vertical-align: middle;
+    background-color: aliceblue;
+}
+.data-header thead tr:first-child th:nth-child(1) {
+    border-left: none;
+}
+.data-header thead tr:first-child {
+    border-bottom: 1px solid #ddd;
+}
+
+.data-body {
+    vertical-align: top;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ddd;
+    /* background-color: yellow; */
+}
+.data-body td {
+    height: 100%;
+}
+
+.data-body table {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+.data-body table tr {
+    border: none;
+}
+.data-body table tbody tr td {
+    margin: 0;
+    /*padding: 1px 5px;
+      height: 30px; */
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+.headerSortNone:after {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e252";    /* adjust as needed, taken from bootstrap.css */
+    color: silver;
+    float: right;        /* adjust as needed */
+}
+
+.headerSortDown:after {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e252";    /* adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+    float: right;        /* adjust as needed */
+}
+
+.headerSortUp:after {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e253";    /* adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+    float: right;        /* adjust as needed */
+}
+
+/*
+.headerSortDown:after {
+  top: 10px;
+  border-top-color: silver;
+}
+
+.headerSortUp:after {
+  bottom: 15px;
+  border-bottom-color: silver;
+}
+
+.headerSortDown,
+.headerSortUp {
+  padding-right: 10px;
+}
+*/
+
+
+
+
+#menubar {
+    margin: 0;
+    background-color: aliceblue;
+    padding: 0;
+}
+#menubar ul {
+    width: 130px;
+}
+#menubar ul li:hover {
+    color: #fff;
+    background-color:deepskyblue;
+}
+
+
+#logout {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#logout:hover {
+    color: #fff;
+    background-color:deepskyblue;
+}
+
+.btn-trans {
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+    width: 100px;
+}
+.btn-trans:hover {
+    background-color: #f5f5f5;
+}
+
+.btn-text {
+    background-color: white;
+    border-radius: 2px;
+    width: 100px;
+    border: 1px solid #ddd;
+}
+
+/*
+.btn-trans.active {
+    background-color: #f5f5f5;
+}
+*/
+.btn:focus, a:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.system-iconx {
+    width: 14px;
+    height: 14px;
+    margin: 0px;
+    padding-top: 0px !important;
+}
+/* Work Area */
+/*-----------------------*/
+/*  Panel Collapse ICON  */
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e160";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: black;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e159";    /* adjust as needed, taken from bootstrap.css */
+}
+/*  Panel Collapse ICON  */
+/*-----------------------*/
+
+
+/*------------------------*/
+/*  File Exchange Status  */
+@keyframes blink-effect { 50% { opacity: 0.1; } }
+.state_new:before {
+     font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+     content: "\e022";    /* adjust as needed, taken from bootstrap.css */
+     color: black;         /* adjust as needed */
+     height: 10px;
+}
+
+.state_request:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e007";    /* adjust as needed, taken from bootstrap.css */
+    color: red;         /* adjust as needed */
+    animation: blink-effect 1s step-end infinite;
+}
+
+.state_ok:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e089";    /* adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+}
+.state_cancel:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e090";    /* adjust as needed, taken from bootstrap.css */
+    color: red;         /* adjust as needed */
+}
+.state_delete:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e088";    /*   e166 adjust as needed, taken from bootstrap.css */
+    color: gray;         /* adjust as needed */
+}
+.state_download:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e026";    /*   e166 adjust as needed, taken from bootstrap.css */
+    color: blue;         /* adjust as needed */
+}
+.state_downloaded:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e026";    /* \e168   adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+}
+/*  File Exchange Status  */
+/*------------------------*/
+
+/*------------------------*/
+/*  Log Status  */
+/*
+.log_info:before {
+     font-family: 'Glyphicons Halflings';
+     content: "\e044";
+     color: silver;
+     height: 10px;
+}
+
+.log_error:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e101";
+    color: red;
+}
+
+.log_debug:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e086";
+    color: blue;
+}
+
+.log_warning:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e107";
+    color: orange;
+}
+*/
+.log_info:before {
+    content: "\f431";
+    color: blue;
+    font-weight: bold;
+}
+
+.log_error:before {
+   content: "\F333";
+   color: red;
+   font-weight: bold;
+}
+
+.log_debug:before {
+   content: "\F2E6";
+   color: black;
+   font-weight: bold;
+}
+
+.log_warning:before {
+   content: "\F505";
+   color: orange;
+   font-weight: bold;
+}
+/*  File Exchange Status  */
+/*------------------------*/
+
+
+.badge-normal {
+    width: 40px;
+}
+
+.btn-title {
+    pointer-events: none;
+}
+
+.transactions {
+    table-layout: fixed;
+}
+.transactions tr td {
+    text-align: center;
+}
+.transactions tr td:nth-last-child(4),
+.transactions tr td:nth-last-child(3) {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.transactions tr td:nth-last-child(2),
+.transactions tr td:nth-last-child(1) {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list_date {
+    font-weight: bold;
+    background-color: whitesmoke;
+    text-align: left !important;
+}
+.list_date:before {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e023";    /* adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+    float: left;
+    padding-left: 5px;
+    text-align: left;
+}
+input:read-only, textarea:read-only {
+    box-shadow: none;
+    background-color: white !important;
+}
+
+
+
+.loader {
+    /* 
+    position: absolute;
+    left: calc(50% - 50px);
+    margin-top: calc(50% - 50px);
+    top: 50%;
+    margin: 0 auto; */
+    margin-top: 300px;
+    margin-left: calc(50% - 50px);
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.legendLayer .background {
+    fill: rgba(255, 255, 255, 0.85);
+    stroke: rgba(0, 0, 0, 0.85);
+    stroke-width: 1;
+}
+
+
+
+
+/* ML Manager*/
+#tblServer thead th {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#tblServer tbody td {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#tblModel tbody td {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.cropped {
+    max-width:135px;
+    overflow: hidden;
+    padding-left: 5px;
+}
+
+.cropped img {
+    max-width: initial;
+}
+
+.process_run:before {
+    font-family: 'bootstrap-icons';  /* essential for enabling glyphicon */
+    content: "\f4f4";    /* adjust as needed, taken from bootstrap.css */
+    color: green;         /* adjust as needed */
+    /* animation: blink-effect 1s step-end infinite; */
+}
+.process_stop:before {
+    font-family: 'bootstrap-icons';  /* essential for enabling glyphicon */
+    content: "\f592";    /* adjust as needed, taken from bootstrap.css */
+    color: red;         /* adjust as needed */
+    animation: blink-effect 1s step-end infinite;
+}
+.process_notused:before {
+    font-family: 'bootstrap-icons';  /* essential for enabling glyphicon */
+    content: "\f2ea";    /* adjust as needed, taken from bootstrap.css */
+    color: black;         /* adjust as needed */
+    opacity: 0.3;
+}
+.monitoring:before {
+    font-family: 'bootstrap-icons';  /* essential for enabling glyphicon */
+    content: "\f4f2";    /* adjust as needed, taken from bootstrap.css */
+    color: green;         /* adjust as needed */
+    /* animation: blink-effect 1s step-end infinite; */
+}
+
+/* 스크롤 top 버튼 */
+.Btn_gotop {
+    z-index:999;
+    border:1px solid #ccc;
+    outline:none;
+    background-color:#E6E6E6;
+    color:#333;
+    cursor:pointer;
+    padding:8px 10px;
+    border-radius:18px;
+    opacity: 0.3;
+  }
+  
+.Btn_gotop:hover{
+opacity: 1;
+}
+
+.Btn_gotop:active {
+/* transform: scaleY( 2 ) */
+opacity: 1;
+background-color: white;
+background-position: 0 0px;
+border-color: #ccc;
+}
+
+/* 스크롤 bottom 버튼 */
+.Btn_gobottom {
+display:block;
+z-index:999;
+border:1px solid #ccc;
+outline:none;
+background-color:#E6E6E6;
+color:#333;
+cursor:pointer;
+padding:8px 10px;
+border-radius:18px;
+opacity: 0.3;
+}
+
+.Btn_gobottom:hover{
+opacity: 1;
+}
+
+.Btn_gobottom:active {
+/* transform: scaleY( 2 ) */
+opacity: 1;
+background-color: white;
+background-position: 0 0px;
+border-color: #ccc;  
+}
+
+/* 버튼을 담을 컨테이너의 스타일 */
+.bottom-right-buttons {
+    position: fixed;
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-end;
+    right: 20px; 
+    bottom: 20px; 
+    z-index: 9999; 
+}
+
+.bottom-right-buttons button {
+    margin-bottom: 5px; 
+}
+
+@media (max-height: 768px) {
+    .bottom-right-buttons {
+        bottom: 20px; 
+    }
+}
+
+@media (max-width: 1451px) {
+    .bottom-right-buttons {
+        right: 20px; 
+    }
+}

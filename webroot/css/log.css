@@ -1,0 +1,121 @@
+/* log 테이블 */
+#tblLog {
+    width: 100%;
+    border-collapse:collapse;
+    table-layout: fixed;
+}
+
+#tblLog thead th {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* log 테이블 행*/
+#tblLog tr {
+    margin: 0;
+    padding: 0;
+}
+
+/* log 테이블 컬럼*/
+#tblLog td {
+    border: 1px solid #ddd;
+    margin: 0;
+    padding: 5px;
+    vertical-align: middle;
+    border-right:none;
+}
+
+/* log 테이블 날짜, 몇건 표현 컬럼*/
+#tblLog .list_date {
+    border-left:none;
+}
+
+/* log 테이블 날짜/시간 컬럼*/
+#tblLog .list_time {
+    border-left:none;
+}
+
+/* log 테이블 header 행*/
+#tblheadLog tr{
+    height:31px;
+}
+
+/* sticky header */
+/* .list_date{
+    position: sticky;
+    outline:1px solid #ddd;
+    border-collapse:collapse;
+    padding-top: 1px;
+    top: -1px;
+} */
+
+/* 일시 */
+.logdata tr td:nth-child(1) {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space:nowrap;
+}
+
+/* UID */
+.logdata tr td:nth-child(2) {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space:nowrap;
+}
+
+/* 수신자 */
+.logdata tr td:nth-child(3) {
+    text-align: center;
+}
+
+/* 발신자 */
+.logdata tr td:nth-child(4) {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space:nowrap;
+}
+
+/* 제목 */
+.logdata tr td:nth-child(5) {
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space:nowrap;
+}
+
+/* 첨부파일 */
+.logdata tr td:nth-child(6) {
+    text-align: center;
+}
+
+#logBtu{
+    min-width: 120px;
+}
+#logMenu{
+    min-width: 120px;
+}
+
+/* a 태그 스타일링 */
+#logMenu li a {
+    padding: 6px 0;
+}
+
+#logMenu li a {
+    display: block;
+    padding: 6px 0;
+    padding-left: 15px;
+}
+
+#logMenu li a input {
+    margin-right: 3px;
+    width: 14px;
+    height: 14px;
+}
+#logMenu li a span {
+    margin-right: 0px;
+}

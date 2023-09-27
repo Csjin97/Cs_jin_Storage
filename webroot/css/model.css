@@ -1,0 +1,247 @@
+#tblModel thead th {
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#baseModelBut,#baseModelMenu{
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+}
+
+#baseModelBut{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 120px;
+}
+
+#baseModelMenu{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  min-width: 135px;
+}
+
+#baseModelMenu li{
+  padding: 6px 12px; /* 버튼과 동일한 padding 값을 적용 */
+  cursor: pointer;
+}
+
+#baseModelMenu li span.glyphicon {
+  margin-right: 5px;
+}
+
+/* li 호버 효과를 적용 */
+#baseModelMenu li:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+/* editor */
+#editor {
+  padding: 16px 24px;
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+}
+
+/* ------------------모달 창--------------------------- */
+
+#mdModel > div > div{
+  /* modal-content */
+  width: 700px;
+}
+
+#model_modal_body{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  border: 1px solid blue;
+  height: 370px;
+}
+
+#model_md_left{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 15px;
+  border: 1px solid green;
+  width: 65%;
+  height: 100%;
+}
+#model_md_left >div{
+  width: 100%;
+}
+
+#model_md_right{
+  width: 35%;
+  height: 100%;
+  overflow: auto;
+  border: 1px solid green;
+}
+#model_md_right > div{
+  display: none;
+}
+/* 선택한 항목 값 입력 */
+#model_md_right > .tab-content >.form-group{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px
+}
+/* 크기 조정 */
+#model_md_name_area_input{
+  width:300px;
+}
+#model_md_name_area_input > input{
+  width:100%;
+}
+#model_md_pp_select_area_input{
+  width:300px;
+}
+#model_md_pp_select_area_input > select{
+  width:100%;
+}
+#model_md_description_area_input{
+  width: 300px;
+}
+#model_md_description_area_input > input{
+  width: 100%;
+}
+
+.tab_pp_name{
+  width: 40%;
+}
+.tab_pp_name > label {
+  width: 100%;
+}
+.tab_pp_input{
+  width: 60%;
+}
+.tab_pp_input > input{
+  width: 100%;
+}
+
+/* 모달창 바디 영역 div */
+/*name*/
+#model_md_name_area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* area name */
+.area_name{
+  width: 80px;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+}
+.area_name > label{
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+.area_input{
+  width: 300px;
+  margin: 0px;
+  padding: 0px;
+}
+.area_input > input{
+  width: 100%;
+}
+/*name*/
+#model_md_upload_area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* base model  */
+#model_md_basemodel_area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#model_md_basemodel_select{
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid red;
+  gap: 5px;
+}
+#model_md_basemodel_select > div{
+  width: 100%;
+}
+
+/*pre, post procssing select*/
+#model_md_pp_select_area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+  gap: 10px;
+}
+
+/* 선택 리스트 */
+#model_md_pp_select_area_input{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid black;
+}
+
+#availableItems {
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+  padding: 5px;
+}
+
+/* description  */
+#model_md_description_area{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+}
+
+.dual-listbox-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#model_md_description_area{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid red;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
