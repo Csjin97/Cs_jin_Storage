@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!--favicon.ico 404 -->
+    <link rel="shortcut icon" href="#">
+    <!--  -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="hims">
+    <title>HIMS: ML Manager</title>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script-->
+    <script language="javascript" type="text/javascript" src="bootstrap/3.4.1/js/jquery-1.12.4.min.js"></script>
+    <script language="javascript" type="text/javascript" src="bootstrap/3.4.1/js/jquery.inputmask.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script language="javascript" type="text/javascript" src="bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="bootstrap/3.4.1/css/bootstrap-theme.min.css">
+
+    <!-- Flot -->
+    <script language="javascript" type="text/javascript" src="flot/jquery.canvaswrapper.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.colorhelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.saturated.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.browser.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.drawSeries.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.uiConstants.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.legend.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.categories.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.axislabels.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.resize.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/jquery.flot.time.js"></script>
+    <script language="javascript" type="text/javascript" src="flot/curvedLines.js"></script>
+    <!--ExcelJS-->
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <!-- Date Time -->
+    <link rel="stylesheet" href="datetimepicker/bootstrap-datetimepicker.min.css">
+    <script language="javascript" type="text/javascript" src="datetimepicker/moment.min.js"></script>
+    <script language="javascript" type="text/javascript" src="datetimepicker/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Main -->
+    <link rel="stylesheet" type="text/css" href="css/fonts.css" >
+    <link rel="stylesheet" type="text/css" href="css/main.css" >
+    <link rel="stylesheet" type="text/css" href="css/log.css" >
+    <link rel="stylesheet" type="text/css" href="css/history.css" >
+    <link rel="stylesheet" type="text/css" href="css/rule.css" >
+    <link rel="stylesheet" type="text/css" href="css/model.css" >
+    <link rel="stylesheet" type="text/css" href="css/train.css" >
+    <script language="javascript" type="text/javascript" src="js/common.js"></script>
+    <script language="javascript" type="text/javascript" src="js/serverif.js"></script>
+    <script language="javascript" type="text/javascript" src="js/login.js"></script>
+
+    <script language="javascript" type="text/javascript" src="js/server.js"></script>
+    <script language="javascript" type="text/javascript" src="js/basemodel.js"></script>
+    <script language="javascript" type="text/javascript" src="js/model.js"></script>
+    <script language="javascript" type="text/javascript" src="js/rule.js"></script>
+    <script language="javascript" type="text/javascript" src="js/history.js"></script>
+    <script language="javascript" type="text/javascript" src="js/train.js"></script>
+    <!--script language="javascript" type="text/javascript" src="js/filepolicy.js"></script-->
+    <script language="javascript" type="text/javascript" src="js/log.js"></script>
+    <script language="javascript" type="text/javascript" src="js/admin.js"></script>
+</head>
+
+<body onload="start()" onmousemove="LastActiveTime()" onkeypress="LastActiveTime()">
+    <table class="border-none">
+        <!-- Header -->
+        <tr id="titlebar">
+            <td id="mnuMain" colspan="2" style="height: 40px; padding: 0px; margin: 0px; padding-top: 10px;">
+                <div class="pull-left">
+                    <div class="cropped">
+                        <img src="images/logo-hims.png" id="icon" alt="User Icon">
+                    </div>
+                </div>
+                <button id="Server" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-dashboard"></span>
+                    <b> &nbsp;서버현황</b>
+                </button>
+                <button id="Model" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    <b> &nbsp;모&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;델</b>
+                </button>
+                <button id="Rule" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    <b> &nbsp;검사설정</b>
+                </button>
+                <button id="History" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <b> &nbsp;검사현황</b>
+                </button>
+                <button id="Train" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-retweet"></span>
+                    <b> &nbsp;학&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;습</b>
+                </button>
+                <button id="Log" class="btn btn-trans" onclick="SetupMenu(this);">
+                    <span class="glyphicon glyphicon-list"></span>
+                    <b> &nbsp;로&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;그</b>
+                </button>
+                <button class="btn btn-trans btn-title" style="width:150px">
+                    <b id="loginMode">Development</b>
+                </button>
+                <div class="pull-right" style="vertical-align: middle; height: 100%; padding-right: 10px;">
+                    <!-- User Information -->
+                    <button class="btn btn-trans btn-title" style="width:150px">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <b id="loginUser"></b>
+                    </button>
+                    <button id="logout" type="button" class="btn btn-trans" onclick="Logout();">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        <b> &nbsp;로그아웃</b>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </div>
+        <tr valign="top">
+            <!-- Work Area -->
+            <td class="workingarea" colspan="2">
+                <div id="workpanel" class="scroll">
+                    <!-- Work Area -->
+                    <!-- div w3-include-html="system.html" style="height: 100%;"></div-->
+                    <div id="pnlServer" style="display: none; height: 100%; width:100.1%;" w3-include-html="server.html" ></div>
+                    <div id="pnlModel" style="display: none; height: 100%;" w3-include-html="model.html" ></div>
+                    <div id="pnlRule" style="display: none; height: 100%;" w3-include-html="rule.html" ></div>
+                    <div id="pnlHistory" style="display: none; height: 100%;" w3-include-html="history.html" ></div>
+                    <div id="pnlTrain" style="display: none; height: 100%;" w3-include-html="train.html" ></div>
+                    <div id="pnlLog" style="display: none; height: 100%;" w3-include-html="log.html" ></div>
+                </div >
+            </td>
+        </tr>
+        <tr id="footerarea">
+            <!-- Footer -->
+            <td colspan="2" style="border-top: 1px solid #ddd;">
+                <p class="text-muted" style="text-align:center;">
+                    <small>
+                        (주)힘스   &nbsp; &nbsp;  인천광역시 남동구 남동서로 126(고잔동 677번지 87블록 1롯트) TEL.032-821-2511 / FAX.032-819-1660<br>COPYRIGHT &COPY; 2023 HIMS. ALL RIGHT RESERVED.
+                    </small>
+                </p>
+            </td>
+            <!-- <div class="bottom-right-buttons">
+                <button class="Btn_gotop" onclick="Btngotop()">
+                    <span class="glyphicon glyphicon-arrow-up" id="Btntopicon"></span>
+                </button>
+                <button class="Btn_gobottom" onclick="Btngobottom()">
+                    <span class="glyphicon glyphicon-arrow-down" id="Btnbottomicon"></span>
+                </button>
+            </div> -->
+        </tr>
+    </table>
+</body>
+</html>
