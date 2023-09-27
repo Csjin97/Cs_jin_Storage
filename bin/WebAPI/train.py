@@ -107,15 +107,19 @@ class CMLTarin(CRedis):
         result['msg'] = ''
         type_values = data.get('type', {})
         for type_key, type_value in type_values.items():
-            print(type_value)
+            print(f"add data / type_key:{type_key},type_value:{type_value}")
             if type_key == "train":
                 db_data["train"].append(type_value)
+                print(db_data["train"])
             elif type_key == "data_set":
                 db_data["data_set"].append(type_value)
+                print(db_data["data_set"])
             elif type_key == "train_options":
                 db_data["train_options"].append(type_value)
+                print(db_data["train_options"])
             elif type_key == "train_conditions":
                 db_data["train_conditions"].append(type_value)
+                print(db_data["train_conditions"])
         return result
 
     def Read(self, data):
@@ -124,7 +128,7 @@ class CMLTarin(CRedis):
         type_values = data.get('type', {})
         if(type_values == "all"):
             result['data'] = db_data
-            print(result)
+            print(f"read data : {result}")
         return result
 
     def Modify(self, data):
