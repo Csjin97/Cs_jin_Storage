@@ -1782,6 +1782,7 @@ function drawimg(image_data){
     try {
         var key = JSON.parse(imgResult);
     } catch (error) {
+        console.lof("ng draw data ",imgResult);
         console.log("imgResult is not valid JSON:", error);
         var jsonString = imgResult.replace(/'/g, '"'); // 작은 따옴표를 큰 따옴표로 바꿈
         var key = JSON.parse(jsonString);
@@ -2065,24 +2066,30 @@ function imgDownLoad(){
 //Train
 /////////////////////////////////////////
 //모달 창 열기
-//
-function TrainInitial(){
-    console.log("Train");
-    train_Update();
+// 학습, 학습 모달
+// 데이터셋모달 , sub 데이터셋 모달
+// 학습 옵션 모달 , sub json 학습 옵션 모달
+// 학습 조건 모달 , sub 학습 조건 모달
 
+function TrainInitial(){
+    console.log("Train Initial");
+    train_Update();
 }
 function Train_start(){
 // 학습 시작
     console.log("start");
 }
-
 function TrainAdd(data){
     hTrain.Add(data);
+    // 차후 업데이트 분리 수정 예정
+    train_Update();
 }
 function TrainUpdate(data) {
     hTrain.Modify(data);
+    // 차후 업데이트 분리 수정 예정
+    train_Update();
 }
-function TrainDelete(element){
+function Train_Delete(element){
     //임시
     var train_td = element.closest('.train_td');
 
@@ -2103,8 +2110,9 @@ function TrainDelete(element){
             }
         }
     };
-
     hTrain.Remove(data);
+    // 차후 업데이트 분리 수정 예정
+    train_Update();
 }
 
 function TrainList(){
@@ -2129,10 +2137,10 @@ function TrainList(){
                     <button type="button" class="btn btn-default" onclick="Train_start();">
                         <span class="glyphicon glyphicon-triangle-right"></span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                    <button type="button" class="btn btn-default" onclick="train_View('edit', this);">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                    <button type="button" class="btn btn-default" onclick="Train_Delete(this);">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
@@ -2143,7 +2151,7 @@ function TrainList(){
     });
 }
 
-function trainView(name, button_element){
+function train_View(name, button_element){
     console.log("학습 모달창", name, button_element)
     // 학습 목록 추가 , 편집
     var md_name = name.toLowerCase();
@@ -2172,25 +2180,53 @@ function trainView(name, button_element){
     }
     $('#mdTrain').modal();
 }
+
+///// 학습 페이지 업데이트 /////
+function processProperty(propertyData, updateFunction) {
+    if (propertyData.length != 0) {
+      updateFunction(propertyData);
+    }
+}
 function train_Container_Update(data){
     console.log(data);
+    var keys =Object.key(data);
+    for(let i = 0; i< keys.length; i++){
+        var items = data[keys];
+        var key = Object.key(items);
+        for(let i = 0; i < key.length; i++){
+            console.log(items[key]);
+        }
+    }
+    /*
+        {?: 
+            {
+                'name': 'tet', 
+                'training_options': '', 
+                'training_conditions': '', 
+                'description': 'easta', 
+                'creat_date': '2023/09/27 14:12'
+                'data_set: {'Count': {'data_set': '11111'}}
+            }
+        }
+    */
+
     /*
     $('.train-container').append(`
             <div class="train_td">
-                <div class="train-cell">${}</div>
-                <div class="train-cell">${}</div>
-                <div class="train-cell">${}</div>
-                <div class="train-cell">${}</div>
-                <div class="train-cell">${}</div>
-                <div class="train-cell">${}</div>
+                <div class="train-cell">${train[?][creat_date]}</div>
+                <div class="train-cell">${train[?][name]}</div>
+                <div class="train-cell">${train[?][data_set]}</div>
+                <div class="train-cell">${train[?][training_options]}</div>
+                <div class="train-cell">${train[?][training_conditions]}</div>
+                <div class="train-cell">${train[?][description]}</div>
                 <div class="train-cell">
                     <button type="button" class="btn btn-default" onclick="Train_start();">
                         <span class="glyphicon glyphicon-triangle-right"></span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                    <button type="button" class="btn btn-default" onclick="train_View('edit', this);">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                    <button type="button" class="btn btn-default" onclick="Train_Delete(this);">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
@@ -2198,31 +2234,33 @@ function train_Container_Update(data){
             `)
     */
 }
-
 function data_Set_Update(data){
-    console.log(data);
+    console.log("data set update", data);
     for (let i = 0; i < data.length; i++) {
         const obj = data[i];
-        
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
                 const item = obj[key];
                 const itemName = Object.keys(item)[0];
                 const itemValue = item[itemName];
-                console.log(key,item,itemName,itemValue);
+                // 테이블
                 $(`.train_md_set_list`).append(`
-                    <tr onclick="mdDataset_subView(this);" data-value="${key}" data-name="${itemValue}">
+                    <tr onclick="train_Dataset_Sub_View(this);" data-name="${key}" data-value="${itemValue}">
                         <td>${key}</td>
                         <td>${itemValue}</td>
                     </tr>
                 `);
+                //드랍 다운
+                $(`#train_data_set_dropdown`).append(`
+                    <option value="${itemValue}">${key}</option>
+                `)
+
             }
         }
     }
 }
-
 function train_Options_Update(data){
-    console.log(data);
+    console.log("train options update",data);
     for (let i = 0; i < data.length; i++) {
         const obj = data[i];
         for (const key in obj) {
@@ -2230,24 +2268,43 @@ function train_Options_Update(data){
                 const item = obj[key];
                 const itemName = Object.keys(item)[0];
                 const itemValue = item[itemName];
-                console.log(key,item,itemName,itemValue);
+                // 테이블
                 $('.train_md_rule_list').append(`
-                <tr onclick="train_md_rule_json(this);"data-value='${itemValue}' data-date='${key}'>
+                <tr onclick="train_options_sub_view(this); "data-value='${itemValue}' data-name='${key}'>
                     <td>${key}</td>
                     <td>${itemValue}</td>
                 </tr>
                 `);
+                // 드롭다운
+                $(`#train_options_dropdown`).append(`
+                    <option value="${itemValue}">${key}</option>
+                `)
             }
         }
     }
 }
-function trainConditionsData_Update(data){
-    console.log(data);
-}
-
-function processProperty(propertyData, updateFunction) {
-    if (propertyData.length != 0) {
-      updateFunction(propertyData);
+function train_Conditions_Update(data){
+    console.log("train conditions update", data);
+    for (let i = 0; i < data.length; i++) {
+        const obj = data[i];
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const item = obj[key];
+                const itemName = Object.keys(item)[0];
+                const itemValue = item[itemName];
+                // 테이블
+                $('.train_md_order_list').append(`
+                <tr onclick="Train_Conditions_Sub_View(this); "data-value='${itemValue}' data-name='${key}'>
+                    <td>${key}</td>
+                    <td>${itemValue}</td>
+                </tr>
+                `);
+                // 드롭다운
+                $(`#train_conditions_dropdown`).append(`
+                    <option value="${itemValue}">${key}</option>
+                `)
+            }
+        }
     }
 }
 function train_Update(){
@@ -2262,7 +2319,9 @@ function train_Update(){
         //학습 테이블 tr
         $('.train-container .train_td').remove();
         //학습 모달 드랍 다운들
-        $('.area_input select').empty();
+        $('#train_data_set_dropdown').empty();
+        $('#train_options_dropdown').empty();
+        $('#train_conditions_dropdown').empty();
         //데이터셋 모달
         $('.train_md_set_list').empty();
         //학습 옵션 모달
@@ -2271,29 +2330,18 @@ function train_Update(){
         $('.train_md_order_list').empty();
 
         const dataContent = result['data'];
+        console.log("get data", dataContent);
         // 'train' 속성 처리
         processProperty(dataContent['train'], train_Container_Update);
-
         // 'data_set' 속성 처리
         processProperty(dataContent['data_set'], data_Set_Update);
-
         // 'train_options' 속성 처리
         processProperty(dataContent['train_options'], train_Options_Update);
-
         // 'train_conditions' 속성 처리
-        processProperty(dataContent['train_conditions'], trainConditionsData_Update);
-
-        //파싱
-        // 1 type 확인
-        // 2 name 확인
-        // 3 조건 별 옵션 값
-        //
-        //type 확인
-        //training_conditions = $('.train_md_order_list').append
-        //학습 조것은 에러 발생 
-
+        processProperty(dataContent['train_conditions'], train_Conditions_Update);
     });
 }
+/////
 
 function class_Area_Input_Data(data){
     //태그에 알맞는 데이터 넣기
@@ -2317,36 +2365,75 @@ function class_Area_Input_Reset(){
         }
     });
 
-} 
-function ImgsetView(){
+}
+
+///// 모달 창 열기 /////
+function Train_Dataset_Main_View(){
     console.log("Img set");
     $('#mdDataset').modal();
 }
-function Train_ruleView(){
+function train_Dataset_Sub_View(element) {
+    console.log("Data set sub View");
+    // 요소의 태그 이름을 가져옴
+    var tagName = element.tagName.toLowerCase();
+    if (tagName === 'button') {
+        // 버튼으로 호출된 경우
+        train_Modal_Data_Input__Area_Reset();
+        train_Md_Data_Input_Area_Show_Button('train_md_path');
+    } else if (tagName === 'tr') {
+        // <tr>로 호출된 경우
+        var dataValue = element.getAttribute('data-value');
+        var dataName = element.getAttribute('data-name');
+        modal_tab_Select_Input_Data(dataName, dataValue)
+    }
+    $(`#mdDataset_sub`).modal();
+}
+function Train_Options_Main_View(){
     console.log("Train rule");
-    $('#mdTrainrule').modal();
+    $('#mdTrainoptions').modal();
 }
-function Train_orderView(){
+var train_md_json_add_edit;
+function train_options_sub_view(element){
+    train_md_json_add_edit = element;
+    var tagName = element.tagName.toLowerCase();
+    var editor = document.getElementById("train_editor");
+
+    if(tagName === 'button'){
+        // + 버튼
+        // edit 영역 초기화
+        //editor.innerText = "";
+        editor.innerText = jsonString;
+    }
+
+    else if(tagName === 'tr'){
+        // 편집(tr 버튼)
+        var dataValue = element.getAttribute('data-value');
+        editor.innerText =  dataValue;
+    }
+    $('#md_trainoptions_sub').modal();
+}
+function Train_Conditions_Main_View(){
     console.log("train order");
-    $('#mdTrain_order').modal();
+    $('#mdTrainconditions').modal();
 }
-function Train_conditions_View(element){
+function Train_Conditions_Sub_View(element){
     console.log("train order input");
 
     var tagName = element.tagName.toLowerCase();
 
     //+ 버튼
     if(tagName === 'button'){
-        train_Md_Data_Input_Area_Show_Button('train_order_md_div1');
+        train_Md_Data_Input_Area_Show_Button('train_md_error_rate');
         train_Modal_Data_Input__Area_Reset();
     }
     // edit 버튼 
     else if(tagName === 'tr'){
     }
 
-    $('#mdTrainorder_sub').modal();
+    $('#mdTrainconditions_sub').modal();
 
 }
+/////
 
 function tabel_List_Append(button_id, append_list, type_name) {
     console.log("데이터셋 테이블 추가", button_id, append_list);
@@ -2360,7 +2447,7 @@ function tabel_List_Append(button_id, append_list, type_name) {
     var inputValue = document.getElementById(id).querySelector('input').value;
     var name = document.getElementById(id).querySelector('label').textContent;
  
-    $('#mdTrainorder_sub').modal('hide');
+    $('#mdTrainconditions_sub').modal('hide');
     $('#mdDataset_sub').modal('hide');
 
     var data = {
@@ -2379,6 +2466,7 @@ function tabel_List_Append(button_id, append_list, type_name) {
 // 데이터 셋 입력 모달차의 버튼을 클릭하면 해당 하는 div 영역 보여주기 또는 숨기기
 function train_Md_Data_Input_Area_Show_Button(id) {
     // 모든 영역을 숨깁니다.
+    console.log("sub modal open",id);
     var allAreas = document.querySelectorAll('.form-group');
     allAreas.forEach(function (area) {
         area.style.display = "none";
@@ -2410,36 +2498,12 @@ var jsonData = {
 };
 var jsonString = JSON.stringify(jsonData, null, 4);
 
-
-var train_md_json_add_edit;
-function train_md_rule_json(element){
-    train_md_json_add_edit = element;
-    var tagName = element.tagName.toLowerCase();
-    var editor = document.getElementById("train_editor");
-
-    if(tagName === 'button'){
-        // + 버튼
-        // edit 영역 초기화
-        //editor.innerText = "";
-        editor.innerText = jsonString;
-    }
-
-    else if(tagName === 'tr'){
-        // 편집(tr 버튼)
-        var dataValue = element.getAttribute('data-value');
-        editor.innerText =  dataValue;
-    }
-    $('#train_json_modal').modal();
-}
-
 // train_editor json 편집기 텍스트를 새로 저장 or 업데이트
-function json_Edit_Tabel_Append(){
-
+function json_Edit_Apply(){
     var tagName = train_md_json_add_edit.tagName.toLowerCase();
     var editor = document.getElementById('train_editor');
     var jsonText = editor.textContent;
     var formattedDate = moment().format('YYYY/MM/DD_HH:mm');
-
     try {
         var jsonData = JSON.parse(jsonText);
     } catch (error) {
@@ -2447,52 +2511,36 @@ function json_Edit_Tabel_Append(){
     }
 
     if(tagName === 'button'){
-        // + 버튼
-        $('.train_md_rule_list').append(`
-        <tr onclick="train_md_rule_json(this);"data-value='${jsonText}' data-date='${formattedDate}'>
-            <td>${formattedDate}</td>
-            <td>${jsonText}</td>
-        </tr>
-    `);
+        var data = {
+            'work': 'train',
+            'type': {
+                'train_options': {
+                    [formattedDate]: {
+                        'training_options': jsonText,
+                    }
+                }
+            }
+        }; 
+        TrainAdd(data);
     }
     else if(tagName === 'tr'){
         formattedDate = train_md_json_add_edit.querySelector('td:nth-child(1)');
         jsonText = train_md_json_add_edit.querySelector('td:nth-child(2)');
         second.innerText = editor.innerText;
-    }
-
-    var data = {
-        'work': 'train',
-        'type': {
-            'train_options': {
-                [formattedDate]: {
-                    'training_options': jsonText,
+        var data = {
+            'work': 'train',
+            'type': {
+                'train_options': {
+                    [formattedDate]: {
+                        'training_options': jsonText,
+                    }
                 }
             }
-        }
-    }; 
-    TrainAdd(data);
-
-    $('#train_json_modal').modal('hide');
-}
-
-function mdDataset_subView(element) {
-    console.log("Data set sub View");
-    // 요소의 태그 이름을 가져옴
-    var tagName = element.tagName.toLowerCase();
-    if (tagName === 'button') {
-        // 버튼으로 호출된 경우
-        train_Modal_Data_Input__Area_Reset();
-        train_Md_Data_Input_Area_Show_Button('train_md_path');
-    } else if (tagName === 'tr') {
-        // <tr>로 호출된 경우
-        var dataValue = element.getAttribute('data-value');
-        var dataName = element.getAttribute('data-name');
-        mdDataset_sub_Select_Input_Data(dataName, dataValue)
+        }; 
+        TrainUpdate(data);
     }
-    $(`#mdDataset_sub`).modal();
+    $('#md_trainoptions_sub').modal('hide');
 }
-
 function train_Modal_Reset(){
     // 데이터 셋 입력 탭 버튼 ,영역
     $('.train_md_set_list').empty();
@@ -2505,7 +2553,8 @@ function train_Modal_Reset(){
     // 학습 지시
 }
 
-function mdDataset_sub_Select_Input_Data(name, value) {
+//
+function modal_tab_Select_Input_Data(name, value) {
     console.log("데이터 셋 추가",name,value);
     // id, name 변경 필요 
     var button_name = name.toLowerCase();
@@ -2567,17 +2616,19 @@ function train_Modal_Open_Table_Append() {
         var fieldValue = inputElement ? inputElement.value : selectElement.value;
     
         formData[fieldName] = fieldValue;
+        //console.log(fieldName, fieldValue);
     });
     formData['Creat_Date'] = formattedDate;
 
     $('#mdTrain').modal('hide');
-
+    console.log("add table" , formData);
     var data = {
         'work': 'train',
         'type': {
             'train': {
                 [formData['Name']]: {
-                    'data_set': formData['Data Set'],
+                    'name':formData['Name'],
+                    'data_set': formData['Data_set'],
                     'training_options': formData['Training_Options'],
                     'training_conditions': formData['Trauning_Conditions'],
                     'description': formData['Description'],
@@ -2585,7 +2636,8 @@ function train_Modal_Open_Table_Append() {
                 }
             }
         }
-    }; 
+    };
+
     TrainAdd(data);
 }
 

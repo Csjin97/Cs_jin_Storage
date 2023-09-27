@@ -4,7 +4,7 @@
         <div>
             <div class="btn-group">
                 <div>
-                    <button type="button" class="btn btn-default" onclick="trainView('add', this);">
+                    <button type="button" class="btn btn-default" onclick="train_View('add', this);">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                     <button type="button" class="btn btn-default">
@@ -12,13 +12,13 @@
                     </button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-default" onclick="ImgsetView();">
+                    <button type="button" class="btn btn-default" onclick="Train_Dataset_Main_View();">
                         <span>데이터 셋</span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="Train_ruleView();">
+                    <button type="button" class="btn btn-default" onclick="Train_Options_Main_View();">
                         <span>학습 옵션</span>
                     </button>
-                    <button type="button" class="btn btn-default" onclick="Train_orderView();">
+                    <button type="button" class="btn btn-default" onclick="Train_Conditions_Main_View();">
                         <span>학습 조건</span>
                     </button>
                 </div>
@@ -44,10 +44,10 @@
                         <button type="button" class="btn btn-default" onclick="Train_start();">
                             <span class="glyphicon glyphicon-triangle-right"></span>
                         </button>
-                        <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                        <button type="button" class="btn btn-default" onclick="train_View('edit', this);">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                        <button type="button" class="btn btn-default" onclick="Train_Delete(this);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
@@ -63,10 +63,10 @@
                         <button type="button" class="btn btn-default" onclick="Train_start();">
                             <span class="glyphicon glyphicon-triangle-right"></span>
                         </button>
-                        <button type="button" class="btn btn-default" onclick="trainView('edit', this);">
+                        <button type="button" class="btn btn-default" onclick="train_View('edit', this);">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button type="button" class="btn btn-default" onclick="TrainDelete(this);">
+                        <button type="button" class="btn btn-default" onclick="Train_Delete(this);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
@@ -97,7 +97,7 @@
                                 <label class="control-label">Data Set</label>
                             </div>
                             <div class="area_input">
-                                <select class="form-control">
+                                <select class="form-control" id="train_data_set_dropdown">
                                     <option value="0">Upload</option>
                                     <option value="ASE 1">ASE 1</option>
                                     <option value="ASE 2">ASE 2</option>
@@ -109,7 +109,7 @@
                                 <label class="control-label">학습 옵션</label>
                             </div>
                             <div class="area_input">
-                                <select class="form-control">
+                                <select class="form-control" id="train_options_dropdown">
                                     <option value="0">Upload</option>
                                     <option value="ASE 1">ASE 1</option>
                                     <option value="ASE 2">ASE 2</option>
@@ -121,7 +121,7 @@
                                 <label class="control-label">학습 조건</label>
                             </div>
                             <div class="area_input">
-                                <select class="form-control">
+                                <select class="form-control" id="train_conditions_dropdown">
                                     <option value="0">Upload</option>
                                     <option value="ASE 1">ASE 1</option>
                                     <option value="ASE 2">ASE 2</option>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <button type="button" class="btn btn-default" onclick="mdDataset_subView(this);">
+                            <button type="button" class="btn btn-default" onclick="train_Dataset_Sub_View(this);">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -167,7 +167,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="train_md_set_list">
-                                    <tr onclick="mdDataset_subView(this);">
+                                    <tr onclick="train_Dataset_Sub_View(this);">
                                         <td>...</td>
                                         <td>...</td>
                                     </tr>
@@ -234,7 +234,7 @@
             </div>
         </div>
         <!-- 학습 옵션 모달 창 -->
-        <div class="modal fade" id="mdTrainrule" tabindex="-1" role="dialog">
+        <div class="modal fade" id="mdTrainoptions" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -243,7 +243,7 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <button type="button" class="btn btn-default" onclick="train_md_rule_json(this);">
+                            <button type="button" class="btn btn-default" onclick="train_options_sub_view(this);">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -256,7 +256,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="train_md_rule_list">
-                                    <tr onclick="train_md_rule_json(this);">
+                                    <tr onclick="train_options_sub_view(this);">
                                         <td>...</td>
                                         <td>...</td>
                                     </tr>
@@ -271,7 +271,7 @@
             </div>
         </div>
         <!-- 학습 조건 모달 창 -->
-        <div class="modal fade" id="mdTrain_order" tabindex="-1" role="dialog">
+        <div class="modal fade" id="mdTrainconditions" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -280,7 +280,7 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <button type="button" class="btn btn-default" onclick="Train_conditions_View(this)">
+                            <button type="button" class="btn btn-default" onclick="Train_Conditions_Sub_View(this)">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </div>
@@ -293,7 +293,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="train_md_order_list">
-                                    <tr onclick="Train_conditions_View(this)">
+                                    <tr onclick="Train_Conditions_Sub_View(this)">
                                         <td>...</td>
                                         <td>...</td>
                                     </tr>
@@ -308,7 +308,7 @@
             </div>
         </div>
         <!-- 학습 조건 입력 모달 창 -->
-        <div class="modal fade" id="mdTrainorder_sub" tabindex="-1" role="dialog">
+        <div class="modal fade" id="mdTrainconditions_sub" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -318,7 +318,7 @@
                     <div class="modal-body">
                         <div id="train_order_select">
                             <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_error_rate')">과검률</button>
-                            <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_order_md_div2')">Date</button>
+                            <button type="button" class="btn btn-default" onclick="train_Md_Data_Input_Area_Show_Button('train_md_order_date')">Date</button>
                         </div>
                         <div class="md_data_input_area">
                             <div class="form-group md_line" id="train_md_error_rate">
@@ -349,7 +349,7 @@
             </div>
         </div>
         <!-- json edit 모달 창 -->
-        <div class="modal fade" id="train_json_modal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="md_trainoptions_sub" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -361,7 +361,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="json_Edit_Tabel_Append();">Apply</button>
+                        <button type="button" class="btn btn-primary" onclick="json_Edit_Apply();">Apply</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
                     </div>
                 </div>
